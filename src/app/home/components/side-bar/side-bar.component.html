@@ -7,6 +7,7 @@
                     type="text" 
                     id="searchLocation" 
                     placeholder="Enter location..."
+                    [formControl]="searchFormControl"
                 />
                 <button type="button" class="btn btn-success btn-md" (click)="search()">Search for the weather</button>
             </div>

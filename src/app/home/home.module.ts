@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './components/home/home.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -14,7 +14,8 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
   ],
   imports: [
     CommonModule, 
-    HomeRoutingModule
+    HomeRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class HomeModule { }

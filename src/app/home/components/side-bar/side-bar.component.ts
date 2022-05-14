@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Location } from '../../model/location.interface';
+import { GeocodeStateService } from '../../services/geocode-state/geocode-state.service';
 import { GeocodeService } from '../../services/geocode/geocode.service';
 
 @Component({
@@ -9,15 +11,19 @@ import { GeocodeService } from '../../services/geocode/geocode.service';
 })
 export class SideBarComponent implements OnInit {
 
-  constructor(private geocodeService: GeocodeService) { }
+  public searchFormControl: FormControl = new FormControl('')
+
+  constructor(private geocodeService: GeocodeService,
+    private geocodeStateService: GeocodeStateService) { }
 
   ngOnInit(): void {
   }
 
+  
+
   public search(): void {       
 
-    this.geocodeService.getLatLong('detroit').subscribe(response => {
- 
+    this.geocodeService.getLatLong(this.searchFormControl.value).subscribe(response => {
       if (response?.features && response.features.length > 0) {
         const properties = response.features[0].properties 
         const location: Location = {
@@ -25,11 +31,8 @@ export class SideBarComponent implements OnInit {
           lon: properties.lon,
           city: properties.city
         };
-
+        this.geocodeStateService.next(location);
       }
-      console.warn(response.features[0].properties.lat)
-      console.warn(response.features[0].properties.lon)
-      console.warn(response.features[0].properties.city)
     })
   }
 
