@@ -13,9 +13,9 @@ export class WeatherStateService {
   public format(apiResponse:any): Weather {
     const current = apiResponse.current
     const weatherData: WeatherData = {
-      dateTime: current.dt,
+      dateTime: current.dt * 1000,
       feelsLike: current.feels_like,
-      temperature: current.temp,
+      temperature: current.temp.toFixed(1),
       uvIndex: current.uvi,
       description: current.weather[0]?.description,
       mainDescription: current.weather[0]?.main

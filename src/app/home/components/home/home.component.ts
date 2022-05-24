@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { map, Observable, of } from 'rxjs';
+import { Weather } from '../../model/weather.interface';
+import { GeocodeStateService } from '../../services/geocode-state/geocode-state.service';
+import { GeocodeService } from '../../services/geocode/geocode.service';
+import { WeatherStateService } from '../../services/weather-state/weather-state.service';
 
 
 @Component({
@@ -8,8 +13,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {}
-
+  constructor(
+    public weatherStateService:WeatherStateService,
+    public geocodeStateService: GeocodeStateService
+    ) {}
+    
+    public ngOnInit(): void {}
 }
+
