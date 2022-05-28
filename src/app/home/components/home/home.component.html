@@ -1,13 +1,19 @@
 <div>
-  <div class="d-flex flex-row">
+  <div class="d-flex flex-row align-items-stretch justify-content-end">
     <div class="d-flex flex-column justify-content-between w-75 padding">
       <h6 class="text-left">my_weather_forecast</h6>
-      <div class="d-flex flex-row">
-        <div class="row-lg-8 p-3 display-1 fw-bold text-center">
+      <div class="d-flex flex-row w-75">
+        <div
+          class="row-lg-8 p-3 display-1 fw-bold text-center"
+          *ngIf="
+            (weatherStateService.mostRecentWeather | async)?.current
+              ?.temperature
+          "
+        >
           {{
             (weatherStateService.mostRecentWeather | async)?.current
               ?.temperature
-          }}
+          }}°
         </div>
         <div class="d-flex flex-column">
           <div class="row-lg-8 p-3 display-4 fw-bold text-center">
@@ -16,7 +22,7 @@
           <div class="row-lg-8 p-3 fs-5 text-center">
             {{
               (weatherStateService.mostRecentWeather | async)?.current?.dateTime
-                | date: "short"
+                | date: "MM/dd hh:mm"
             }}
           </div>
         </div>

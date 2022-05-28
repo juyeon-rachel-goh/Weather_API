@@ -12,21 +12,16 @@ export class WeatherStateService {
   public mostRecentWeather: Observable<Weather> =
     this.mostRecentWeatherData.asObservable();
 
-  public format(apiResponse: any): Weather {
-    const current = apiResponse.current;
-    const weatherData: WeatherData = {
-      dateTime: current.dt * 1000,
-      feelsLike: current.feels_like,
-      temperature: current.temp.toFixed(1),
-      uvIndex: current.uvi,
-      description: current.weather[0]?.description,
-      mainDescription: current.weather[0]?.main,
-      iconUrl: `http://openweathermap.org/img/wn/${current.weather[0]?.icon}@2x.png`,
+  public format(apiResponse: any): WeatherData {
+    return {
+      dateTime: apiResponse.dt * 1000,
+      feelsLike: apiResponse?.feels_like?.day ?? apiResponse?.feels_like,
+      temperature: apiResponse?.temp?.day ?? apiResponse?.temp,
+      uvIndex: apiResponse.uvi,
+      description: apiResponse.weather[0]?.description,
+      mainDescription: apiResponse.weather[0]?.main,
+      iconUrl: `http://openweathermap.org/img/wn/${apiResponse.weather[0]?.icon}@2x.png`,
     };
-    const weather: Weather = {
-      current: weatherData,
-    };
-    return weather;
   }
 
   public next(weather: Weather): void {

@@ -1,0 +1,7 @@
+.blur {
+  backdrop-filter: blur(10px);
+}
+
+.padding {
+  padding: 24px;
+}
