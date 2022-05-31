@@ -1,0 +1,24 @@
+<div class="h-100 w-100">
+  <div class="d-flex flex-row justify-content-between">
+    <span>{{ weather.dateTime | date: "EEEE d" }}</span>
+    <span>{{ weather.temperature }}°</span>
+    <p>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="collapse.toggle()"
+        [attr.aria-expanded]="!isCollapsed"
+        aria-controls="collapseExample"
+      >
+        Toggle
+      </button>
+    </p>
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+      <div class="card">
+        <div class="card-body">
+          <span>{{ weather.feelsLike }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

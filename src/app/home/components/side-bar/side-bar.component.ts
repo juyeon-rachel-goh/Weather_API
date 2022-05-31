@@ -15,6 +15,7 @@ import { WeatherService } from '../../services/weather/weather.service';
 })
 export class SideBarComponent implements OnInit {
   public searchFormControl: FormControl = new FormControl('');
+  public isCollapsed = true;
 
   constructor(
     private geocodeService: GeocodeService,
