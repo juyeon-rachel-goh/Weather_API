@@ -2,23 +2,32 @@
   <div class="d-flex flex-row justify-content-between">
     <span>{{ weather.dateTime | date: "EEEE d" }}</span>
     <span>{{ weather.temperature }}°</span>
-    <p>
-      <button
-        type="button"
-        class="btn btn-outline-primary"
-        (click)="collapse.toggle()"
-        [attr.aria-expanded]="!isCollapsed"
-        aria-controls="collapseExample"
-      >
-        Toggle
-      </button>
-    </p>
-    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
-      <div class="card">
-        <div class="card-body">
-          <span>{{ weather.feelsLike }}</span>
-        </div>
-      </div>
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="collapse.toggle()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample"
+    >
+      <i
+        [ngClass]="{
+          'bi-arrow-up': !isCollapsed,
+          'bi-arrow-down ': isCollapsed,
+          bi: true
+        }"
+        placement="top"
+        [ngbTooltip]="isCollapsed ? 'Expand' : 'Collapse'"
+      ></i>
+    </button>
+  </div>
+  <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+    <div
+      class="d-flex flex-row justify-content-between p-3 border border-dark rounded"
+    >
+      <div>Feels Like</div>
+      <span>{{ weather.feelsLike }}</span>
+      <div>UV Index</div>
+      <span>{{ weather.uvIndex }}</span>
     </div>
   </div>
 </div>

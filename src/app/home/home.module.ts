@@ -4,7 +4,10 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './components/home/home.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapseModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { WeatherDataRowComponent } from './components/weather-data-row/weather-data-row.component';
 
 @NgModule({
@@ -14,6 +17,7 @@ import { WeatherDataRowComponent } from './components/weather-data-row/weather-d
     HomeRoutingModule,
     ReactiveFormsModule,
     NgbCollapseModule,
+    NgbTooltipModule,
   ],
 })
 export class HomeModule {}

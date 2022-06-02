@@ -1,20 +1,24 @@
 <div class="blur padding h-100">
   <form>
-    <div class="form-group p-3">
-      <div class="d-flex p-3">
+    <div class="form-group pt-5">
+      <div class="d-flex">
         <input
-          class="form-control"
+          class="textbar display-6"
+          style="width: 450px"
           type="text"
           id="searchLocation"
           placeholder="Enter location..."
           [formControl]="searchFormControl"
         />
-        <button type="button" class="btn btn-success btn-md" (click)="search()">
-          Search for the weather
-        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-lg bi-search px-4"
+          (click)="search()"
+        ></button>
       </div>
     </div>
   </form>
+  <hr />
   <div class="display-6 pb-4">Past Locations</div>
   <hr />
   <div class="display-6 pb-4">Weather Details</div>
@@ -27,7 +31,7 @@
         }}°
       </span>
     </div>
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-row justify-content-between">
       <span>UV Index</span>
       <span>
         {{ (weatherStateService.mostRecentWeather | async)?.current?.uvIndex }}
