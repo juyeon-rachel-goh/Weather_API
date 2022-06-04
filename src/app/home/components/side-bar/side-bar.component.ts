@@ -5,6 +5,7 @@ import { Location } from '../../model/location.interface';
 import { Weather } from '../../model/weather.interface';
 import { GeocodeStateService } from '../../services/geocode-state/geocode-state.service';
 import { GeocodeService } from '../../services/geocode/geocode.service';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { WeatherStateService } from '../../services/weather-state/weather-state.service';
 import { WeatherService } from '../../services/weather/weather.service';
 
@@ -21,12 +22,14 @@ export class SideBarComponent implements OnInit {
     private geocodeService: GeocodeService,
     private geocodeStateService: GeocodeStateService,
     public weatherStateService: WeatherStateService,
-    private weatherService: WeatherService
+    private weatherService: WeatherService,
+    public localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {}
 
   public search(): void {
+    this.localStorageService.savedSearch(this.searchFormControl.value);
     this.geocodeService
       .getLatLong(this.searchFormControl.value)
       .pipe(
@@ -69,4 +72,7 @@ export class SideBarComponent implements OnInit {
         error: (e) => console.error(e), // TODO: display an error. add something
       });
   }
+}
+function savedSearch() {
+  throw new Error('Function not implemented.');
 }
