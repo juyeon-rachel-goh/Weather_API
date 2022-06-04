@@ -29,7 +29,8 @@ export class SideBarComponent implements OnInit {
   ngOnInit(): void {}
 
   public search(): void {
-    this.localStorageService.savedSearch(this.searchFormControl.value);
+    this.localStorageService.saveSearch(this.searchFormControl.value);
+    this.localStorageService.retriveSearch();
     this.geocodeService
       .getLatLong(this.searchFormControl.value)
       .pipe(

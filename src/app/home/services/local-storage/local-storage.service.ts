@@ -6,15 +6,28 @@ import { Injectable } from '@angular/core';
 export class LocalStorageService {
   constructor() {}
 
-  public savedSearch(city: string) {
+  public saveSearch(city: string) {
     const citiesString = localStorage.getItem('search');
     if (citiesString) {
       const cities = JSON.parse(citiesString);
       cities.unshift(city);
-      const savedCities = cities.slice(0, 3);
-      localStorage.setItem('search', JSON.stringify(savedCities));
+      const saveCities = cities.slice(0, 3);
+      localStorage.setItem('search', JSON.stringify(saveCities));
     } else {
       localStorage.setItem('search', JSON.stringify([city]));
+    }
+  }
+
+  // take out the data out of localstorage
+  public retriveSearch(): string[] {
+    // get into the local storage using key
+    const searchString = localStorage.getItem('search');
+    // reformat the data string -> array
+    if (searchString) {
+      const savedCities = JSON.parse(searchString);
+      return savedCities;
+    } else {
+      return [];
     }
   }
 }
