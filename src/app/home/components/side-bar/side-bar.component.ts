@@ -1,3 +1,4 @@
+import { TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { map, switchMap, tap, take, catchError, of, throwError } from 'rxjs';
@@ -23,15 +24,17 @@ export class SideBarComponent implements OnInit {
     private geocodeStateService: GeocodeStateService,
     public weatherStateService: WeatherStateService,
     private weatherService: WeatherService,
-    public localStorageService: LocalStorageService
+    public localStorageService: LocalStorageService,
+    public titleCasePipe: TitleCasePipe
   ) {}
 
   ngOnInit(): void {}
 
-  public search(): void {
-    this.localStorageService.saveSearch(this.searchFormControl.value);
-    this.localStorageService.next(this.localStorageService.retriveSearch());
-
+  public search(isResearch: boolean = false): void {
+    if (!isResearch) {
+      this.localStorageService.saveSearch(this.searchFormControl.value);
+      this.localStorageService.next(this.localStorageService.retriveSearch());
+    }
     this.geocodeService
       .getLatLong(this.searchFormControl.value)
       .pipe(
@@ -75,6 +78,15 @@ export class SideBarComponent implements OnInit {
         error: (e) => console.error(e), // TODO: display an error. add something
       });
   }
+
+  // Re-search past locations
+  public researchLocation(city: string): void {
+    const titleCasedCity = this.titleCasePipe.transform(city);
+    this.searchFormControl.setValue(titleCasedCity);
+    this.search(true);
+  }
+  // 1. copy the clicked location to the search bar
+  // 2. rerun search()
 }
 function savedSearch() {
   throw new Error('Function not implemented.');

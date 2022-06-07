@@ -22,11 +22,19 @@
   <div class="display-6 pb-4">Past Locations</div>
   <ng-container
     *ngFor="
-      let cities of localStorageService.mostRecentLocalStorage | async;
+      let city of localStorageService.mostRecentLocalStorage | async;
       index as i
     "
   >
-    <div>{{ cities.charAt(0).toUpperCase() + cities.slice(1) }}</div>
+    <div class="p-2">
+      <button
+        type="button"
+        class="btn btn btn-secondary btn-md p-2"
+        (click)="researchLocation(city)"
+      >
+        {{ city | titlecase }}
+      </button>
+    </div>
   </ng-container>
   <hr />
   <div class="display-6 pb-4">Weather Details</div>
