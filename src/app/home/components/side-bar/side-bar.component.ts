@@ -30,10 +30,11 @@ export class SideBarComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public search(): void {
-    this.localStorageService.saveSearch(this.searchFormControl.value);
-    this.localStorageService.next(this.localStorageService.retriveSearch());
-
+  public search(isResearch: boolean = false): void {
+    if (!isResearch) {
+      this.localStorageService.saveSearch(this.searchFormControl.value);
+      this.localStorageService.next(this.localStorageService.retriveSearch());
+    }
     this.geocodeService
       .getLatLong(this.searchFormControl.value)
       .pipe(
@@ -82,7 +83,7 @@ export class SideBarComponent implements OnInit {
   public researchLocation(city: string): void {
     const titleCasedCity = this.titleCasePipe.transform(city);
     this.searchFormControl.setValue(titleCasedCity);
-    this.search();
+    this.search(true);
   }
   // 1. copy the clicked location to the search bar
   // 2. rerun search()
