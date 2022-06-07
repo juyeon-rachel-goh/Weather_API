@@ -1,27 +1,52 @@
-<div class="container mt-3 p-3 bg-light border border-dark rounded">
-    <div class="d-flex flex-row">
-        <div class="col-md-8"><h6 class="text-left">my_weather_forecast</h6></div>
-            <div></div>
-        <div class="col-md-4"><h6 class="text-center">Weather Details here</h6>
-            <form>
-                <div class="form-group p-3">
-                    <div class="d-flex">    
-                        <input class="form-control" type="text" id="searchLocation" placeholder="Enter location...">
-                        <input class="btn btn-primary" type="submit" value="Submit">
-                    </div>
-                    <div>Past Locations</div>
-                </div>
-            </form>
-            <div class="p-3">Weather Details</div>
-                <div class="p-4">Feels like</div>
-                <div class="p-4">Humidity</div>
-                <div class="p-4">Wind</div>
-            <div class="p-3">Next 5 days</div>
-                <div class="p-4">Day+1</div>
-                <div class="p-4">Day+2</div>
-                <div class="p-4">Day+3</div>
-                <div class="p-4">Day+4</div>
-                <div class="p-4">Day+5</div>
+<div
+  class="d-flex flex-row align-items-stretch justify-content-end h-100 w-100"
+>
+  <div class="d-flex flex-column justify-content-between w-75 padding">
+    <h6 class="text-left">my_weather_forecast</h6>
+    <div class="d-flex flex-row w-75">
+      <div
+        class="row-lg-8 p-3 display-1 fw-bold text-center"
+        *ngIf="
+          (weatherStateService.mostRecentWeather | async)?.current?.temperature
+        "
+      >
+        {{
+          (weatherStateService.mostRecentWeather | async)?.current?.temperature
+        }}°
+      </div>
+      <div class="d-flex flex-column">
+        <div class="row-lg-8 p-3 display-4 fw-bold text-center">
+          {{ (geocodeStateService.mostRecentSearch | async)?.city }}
         </div>
+        <div class="row-lg-8 p-3 fs-5 text-center">
+          {{
+            (weatherStateService.mostRecentWeather | async)?.current?.dateTime
+              | date: "MM/dd hh:mm"
+          }}
+        </div>
+      </div>
+      <div class="d-flex flex-column">
+        <div
+          class="row-lg-8 p-3 display-4 text-center"
+          *ngIf="
+            (weatherStateService.mostRecentWeather | async)?.current
+              ?.mainDescription
+          "
+        >
+          <img
+            [src]="
+              (weatherStateService.mostRecentWeather | async)?.current?.iconUrl
+            "
+          />
+        </div>
+        <div class="row-lg-8 p-3 display-6 text-center">
+          {{
+            (weatherStateService.mostRecentWeather | async)?.current
+              ?.mainDescription
+          }}
+        </div>
+      </div>
     </div>
   </div>
+  <app-side-bar></app-side-bar>
+</div>

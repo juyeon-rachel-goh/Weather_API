@@ -1,0 +1,62 @@
+<div class="blur padding h-100">
+  <form>
+    <div class="form-group pt-5">
+      <div class="d-flex">
+        <input
+          class="textbar display-6"
+          style="width: 450px"
+          type="text"
+          id="searchLocation"
+          placeholder="Enter location..."
+          [formControl]="searchFormControl"
+        />
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-lg bi-search px-4"
+          (click)="search()"
+        ></button>
+      </div>
+    </div>
+  </form>
+  <hr />
+  <div class="display-6 pb-4">Past Locations</div>
+  <ng-container
+    *ngFor="
+      let cities of localStorageService.mostRecentLocalStorage | async;
+      index as i
+    "
+  >
+    <div>{{ cities.charAt(0).toUpperCase() + cities.slice(1) }}</div>
+  </ng-container>
+  <hr />
+  <div class="display-6 pb-4">Weather Details</div>
+  <div class="container d-flex flex-column">
+    <div class="d-flex flex-row justify-content-between">
+      <span>Feels like</span>
+      <span>
+        {{
+          (weatherStateService.mostRecentWeather | async)?.current?.feelsLike
+        }}°
+      </span>
+    </div>
+    <div class="d-flex flex-row justify-content-between">
+      <span>UV Index</span>
+      <span>
+        {{ (weatherStateService.mostRecentWeather | async)?.current?.uvIndex }}
+      </span>
+    </div>
+  </div>
+  <hr />
+  <div class="display-6 pb-4">Next 5 days</div>
+  <div class="container d-flex flex-column justify-content-between h-50">
+    <ng-container
+      *ngFor="
+        let weather of (weatherStateService.mostRecentWeather | async)?.daily
+          | slice: 1:6;
+        index as i
+      "
+    >
+      <app-weather-data-row [weather]="weather"></app-weather-data-row>
+    </ng-container>
+  </div>
+</div>
