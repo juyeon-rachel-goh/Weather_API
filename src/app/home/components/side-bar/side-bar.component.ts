@@ -30,7 +30,8 @@ export class SideBarComponent implements OnInit {
 
   public search(): void {
     this.localStorageService.saveSearch(this.searchFormControl.value);
-    this.localStorageService.retriveSearch();
+    this.localStorageService.next(this.localStorageService.retriveSearch());
+
     this.geocodeService
       .getLatLong(this.searchFormControl.value)
       .pipe(
@@ -41,6 +42,7 @@ export class SideBarComponent implements OnInit {
           }
         }),
         map((response) => {
+          //function
           if (response?.features && response.features.length > 0) {
             const properties = response.features[0].properties;
             const location: Location = {

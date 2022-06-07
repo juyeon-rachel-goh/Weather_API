@@ -1,10 +1,26 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService {
-  constructor() {}
+  constructor() {
+    //do stuff
+    // check if localstorge has data
+    const cities = this.retriveSearch();
+    if (Array.isArray(cities) && cities.length > 0) {
+      this.next(cities);
+      console.log(cities);
+    }
+    // if it has a data, push .next function
+    // if nothing, do nothing
+  }
+
+  private mostRecentLocalStorageData: BehaviorSubject<string[]> =
+    new BehaviorSubject<string[]>([]);
+  public mostRecentLocalStorage: Observable<string[]> =
+    this.mostRecentLocalStorageData.asObservable();
 
   public saveSearch(city: string) {
     const citiesString = localStorage.getItem('search');
@@ -29,5 +45,9 @@ export class LocalStorageService {
     } else {
       return [];
     }
+  }
+
+  public next(cities: string[]): void {
+    this.mostRecentLocalStorageData.next(cities);
   }
 }
