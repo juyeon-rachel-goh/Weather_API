@@ -1,5 +1,5 @@
 <div class="blur padding h-100">
-  <form>
+  <form (ngSubmit)="search()">
     <div class="form-group pt-5">
       <div class="d-flex">
         <input
@@ -11,9 +11,8 @@
           [formControl]="searchFormControl"
         />
         <button
-          type="button"
+          type="submit"
           class="btn btn-outline-dark btn-lg bi-search px-4"
-          (click)="search()"
         ></button>
       </div>
     </div>

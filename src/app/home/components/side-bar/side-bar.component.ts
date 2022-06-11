@@ -85,8 +85,6 @@ export class SideBarComponent implements OnInit {
     this.searchFormControl.setValue(titleCasedCity);
     this.search(true);
   }
-  // 1. copy the clicked location to the search bar
-  // 2. rerun search()
 }
 function savedSearch() {
   throw new Error('Function not implemented.');
