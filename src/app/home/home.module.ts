@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   NgbCollapseModule,
   NgbTooltipModule,
+  NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { WeatherDataRowComponent } from './components/weather-data-row/weather-data-row.component';
 
@@ -19,6 +20,7 @@ import { WeatherDataRowComponent } from './components/weather-data-row/weather-d
     NgbCollapseModule,
     NgbTooltipModule,
     FormsModule,
+    NgbTypeaheadModule,
   ],
   providers: [TitleCasePipe],
 })

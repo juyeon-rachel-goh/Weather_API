@@ -1,7 +1,19 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { map, switchMap, tap, take, catchError, of, throwError } from 'rxjs';
+import {
+  map,
+  switchMap,
+  tap,
+  take,
+  catchError,
+  of,
+  throwError,
+  OperatorFunction,
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+} from 'rxjs';
 import { Location } from '../../model/location.interface';
 import { Weather } from '../../model/weather.interface';
 import { GeocodeStateService } from '../../services/geocode-state/geocode-state.service';
@@ -9,6 +21,68 @@ import { GeocodeService } from '../../services/geocode/geocode.service';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { WeatherStateService } from '../../services/weather-state/weather-state.service';
 import { WeatherService } from '../../services/weather/weather.service';
+
+const states = [
+  'Alabama',
+  'Alaska',
+  'American Samoa',
+  'Arizona',
+  'Arkansas',
+  'California',
+  'Colorado',
+  'Connecticut',
+  'Delaware',
+  'District Of Columbia',
+  'Federated States Of Micronesia',
+  'Florida',
+  'Georgia',
+  'Guam',
+  'Hawaii',
+  'Idaho',
+  'Illinois',
+  'Indiana',
+  'Iowa',
+  'Kansas',
+  'Kentucky',
+  'Louisiana',
+  'Maine',
+  'Marshall Islands',
+  'Maryland',
+  'Massachusetts',
+  'Michigan',
+  'Minnesota',
+  'Mississippi',
+  'Missouri',
+  'Montana',
+  'Nebraska',
+  'Nevada',
+  'New Hampshire',
+  'New Jersey',
+  'New Mexico',
+  'New York',
+  'North Carolina',
+  'North Dakota',
+  'Northern Mariana Islands',
+  'Ohio',
+  'Oklahoma',
+  'Oregon',
+  'Palau',
+  'Pennsylvania',
+  'Puerto Rico',
+  'Rhode Island',
+  'South Carolina',
+  'South Dakota',
+  'Tennessee',
+  'Texas',
+  'Utah',
+  'Vermont',
+  'Virgin Islands',
+  'Virginia',
+  'Washington',
+  'West Virginia',
+  'Wisconsin',
+  'Wyoming',
+];
 
 @Component({
   selector: 'app-side-bar',
@@ -29,6 +103,21 @@ export class SideBarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
+
+  public model: any;
+
+  autoComplete: OperatorFunction<string, readonly string[]> = (
+    text$: Observable<string>
+  ) =>
+    text$.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      map((city) =>
+        states
+          .filter((v) => v.toLowerCase().indexOf(city.toLowerCase()) > -1)
+          .slice(0, 10)
+      )
+    );
 
   public search(isResearch: boolean = false): void {
     if (!isResearch) {

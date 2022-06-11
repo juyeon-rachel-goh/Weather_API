@@ -9,6 +9,7 @@
           id="searchLocation"
           placeholder="Enter location..."
           [formControl]="searchFormControl"
+          [ngbTypeahead]="autoComplete"
         />
         <button type="submit" class="btn btn-lg bi-search px-4"></button>
       </div>

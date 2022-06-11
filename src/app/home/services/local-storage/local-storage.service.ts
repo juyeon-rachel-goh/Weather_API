@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class LocalStorageService {
+  includes: any;
   constructor() {
     //do stuff
     // check if localstorge has data
