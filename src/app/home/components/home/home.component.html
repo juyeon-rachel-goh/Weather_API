@@ -5,20 +5,21 @@
     <h6 class="text-left">my_weather_forecast</h6>
     <div class="d-flex flex-row w-75">
       <div
-        class="row-lg-8 p-3 display-1 fw-bold text-center"
+        class="p-3 display-1 fw-bold text-center"
         *ngIf="
           (weatherStateService.mostRecentWeather | async)?.current?.temperature
         "
       >
         {{
           (weatherStateService.mostRecentWeather | async)?.current?.temperature
+            | number: "1.0-0"
         }}°
       </div>
       <div class="d-flex flex-column">
-        <div class="row-lg-8 p-3 display-4 fw-bold text-center">
+        <div class="display-4 fw-bold text-center">
           {{ (geocodeStateService.mostRecentSearch | async)?.city }}
         </div>
-        <div class="row-lg-8 p-3 fs-5 text-center">
+        <div class="fs-5 text-center display-6 h-50">
           {{
             (weatherStateService.mostRecentWeather | async)?.current?.dateTime
               | date: "MM/dd hh:mm"
@@ -27,19 +28,20 @@
       </div>
       <div class="d-flex flex-column">
         <div
-          class="row-lg-8 p-3 display-4 text-center"
+          class="display-4 text-center h-50"
           *ngIf="
             (weatherStateService.mostRecentWeather | async)?.current
               ?.mainDescription
           "
         >
           <img
+            class="img"
             [src]="
               (weatherStateService.mostRecentWeather | async)?.current?.iconUrl
             "
           />
         </div>
-        <div class="row-lg-8 p-3 display-6 text-center">
+        <div class="display-6 text-center h-50">
           {{
             (weatherStateService.mostRecentWeather | async)?.current
               ?.mainDescription
