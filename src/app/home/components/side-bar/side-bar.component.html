@@ -10,6 +10,8 @@
           placeholder="Enter location..."
           [formControl]="searchFormControl"
           [ngbTypeahead]="autoComplete"
+          [resultFormatter]="formatter"
+          [inputFormatter]="formatter"
         />
         <button
           type="submit"

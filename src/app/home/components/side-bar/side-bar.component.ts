@@ -106,18 +106,39 @@ export class SideBarComponent implements OnInit {
 
   public model: any;
 
-  autoComplete: OperatorFunction<string, readonly string[]> = (
+  autoComplete: OperatorFunction<string, Location[]> = (
     text$: Observable<string>
   ) =>
     text$.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-      map((city) =>
-        states
-          .filter((v) => v.toLowerCase().indexOf(city.toLowerCase()) > -1)
-          .slice(0, 10)
+      switchMap((search) =>
+        this.geocodeService.getLatLong(search).pipe(
+          map((response) => {
+            const features = response.features as any[];
+            return features.map((feature) => {
+              const properties = feature.properties;
+              const location: Location = {
+                lat: properties.lat,
+                lon: properties.lon,
+                city: properties.city,
+                formatted: properties.formatted,
+              };
+              return location;
+            });
+          })
+        )
       )
     );
+
+  public formatter = (location: Location) => {
+    const formatted = location.formatted;
+    if (formatted) {
+      return formatted;
+    } else {
+      return '';
+    }
+  };
 
   public search(isResearch: boolean = false): void {
     if (!isResearch) {
