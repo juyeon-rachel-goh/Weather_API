@@ -85,10 +85,10 @@ export class SideBarComponent implements OnInit {
   }
 
   public search(isResearch: boolean = false): void {
-    // if (!isResearch) {
-    //   this.localStorageService.saveSearch(this.searchFormControl.value);
-    //   this.localStorageService.next(this.localStorageService.retriveSearch());
-    // }
+    if (!isResearch) {
+      this.localStorageService.saveSearch(this.searchFormControl.value);
+      this.localStorageService.next(this.localStorageService.retriveSearch());
+    }
     this.weatherService
       .getWeatherData(this.searchFormControl.value)
       .pipe(take(1))
@@ -105,9 +105,8 @@ export class SideBarComponent implements OnInit {
   }
 
   // Re-search past locations
-  public researchLocation(city: string): void {
-    const titleCasedCity = this.titleCasePipe.transform(city);
-    this.searchFormControl.setValue(titleCasedCity);
+  public researchLocation(location: Location): void {
+    this.searchFormControl.setValue(location);
     this.search(true);
   }
 }
