@@ -1,5 +1,5 @@
 <div class="blur padding h-100">
-  <form (ngSubmit)="search()">
+  <form>
     <div class="form-group pt-5">
       <div class="d-flex">
         <input
@@ -12,11 +12,9 @@
           [ngbTypeahead]="autoComplete"
           [resultFormatter]="formatter"
           [inputFormatter]="formatter"
+          [editable]="false"
+          (selectItem)="onSelect($event)"
         />
-        <button
-          type="submit"
-          class="btn btn-outline-dark btn-lg bi-search px-4"
-        ></button>
       </div>
     </div>
   </form>
