@@ -89,6 +89,7 @@ export class SideBarComponent implements OnInit {
       this.localStorageService.saveSearch(this.searchFormControl.value);
       this.localStorageService.next(this.localStorageService.retriveSearch());
     }
+    this.geocodeStateService.next(this.searchFormControl.value);
     this.weatherService
       .getWeatherData(this.searchFormControl.value)
       .pipe(take(1))
