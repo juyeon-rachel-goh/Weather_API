@@ -1,7 +1,21 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { map, switchMap, tap, take, catchError, of, throwError } from 'rxjs';
+import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import {
+  map,
+  switchMap,
+  tap,
+  take,
+  catchError,
+  of,
+  throwError,
+  OperatorFunction,
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  iif,
+} from 'rxjs';
 import { Location } from '../../model/location.interface';
 import { Weather } from '../../model/weather.interface';
 import { GeocodeStateService } from '../../services/geocode-state/geocode-state.service';
@@ -30,63 +44,78 @@ export class SideBarComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  public model: any;
+
+  autoComplete: OperatorFunction<string, Location[]> = (
+    text$: Observable<string>
+  ) => {
+    return text$.pipe(
+      debounceTime(100),
+      distinctUntilChanged(),
+      switchMap((search) => {
+        return iif(
+          () => !search.trim(),
+          of([]),
+          this.geocodeService.getLatLong(search).pipe(
+            map((response) => {
+              const features = response.features as any[];
+              return features.map((feature) => {
+                const properties = feature.properties;
+                const location: Location = {
+                  lat: properties.lat,
+                  lon: properties.lon,
+                  city: properties.city,
+                  formatted: properties.formatted,
+                };
+                return location;
+              });
+            })
+          )
+        );
+      })
+    );
+  };
+
+  public formatter = (location: Location) => {
+    const formatted = location.formatted;
+    if (formatted) {
+      return formatted;
+    } else {
+      return '';
+    }
+  };
+
+  public onSelect(event: NgbTypeaheadSelectItemEvent<Location>): void {
+    this.searchFormControl.setValue(event.item);
+    this.search();
+  }
+
   public search(isResearch: boolean = false): void {
     if (!isResearch) {
       this.localStorageService.saveSearch(this.searchFormControl.value);
       this.localStorageService.next(this.localStorageService.retriveSearch());
     }
-    this.geocodeService
-      .getLatLong(this.searchFormControl.value)
-      .pipe(
-        take(1),
-        tap((response) => {
-          if (response?.features && response.features.length === 0) {
-            throw new Error('Invalid API response.');
-          }
-        }),
-        map((response) => {
-          //function
-          if (response?.features && response.features.length > 0) {
-            const properties = response.features[0].properties;
-            const location: Location = {
-              lat: properties.lat,
-              lon: properties.lon,
-              city: properties.city,
-            };
-            this.geocodeStateService.next(location);
-            return location;
-          }
-          return {};
-        })
-      )
-      .subscribe({
-        next: (location) => {
-          this.weatherService
-            .getWeatherData(location)
-            .pipe(take(1))
-            .subscribe((response) => {
-              const weather: Weather = {
-                current: this.weatherStateService.format(response.current),
-                daily: (response.daily as any[]).map((data) =>
-                  this.weatherStateService.format(data)
-                ),
-              };
-              this.weatherStateService.next(weather);
-              console.log(weather);
-            });
-        },
-        error: (e) => console.error(e), // TODO: display an error. add something
+    this.geocodeStateService.next(this.searchFormControl.value);
+    this.weatherService
+      .getWeatherData(this.searchFormControl.value)
+      .pipe(take(1))
+      .subscribe((response) => {
+        const weather: Weather = {
+          current: this.weatherStateService.format(response.current),
+          daily: (response.daily as any[]).map((data) =>
+            this.weatherStateService.format(data)
+          ),
+        };
+        this.weatherStateService.next(weather);
+        console.log(weather);
       });
   }
 
   // Re-search past locations
-  public researchLocation(city: string): void {
-    const titleCasedCity = this.titleCasePipe.transform(city);
-    this.searchFormControl.setValue(titleCasedCity);
+  public researchLocation(location: Location): void {
+    this.searchFormControl.setValue(location);
     this.search(true);
   }
-  // 1. copy the clicked location to the search bar
-  // 2. rerun search()
 }
 function savedSearch() {
   throw new Error('Function not implemented.');
