@@ -1,5 +1,7 @@
 export interface WeatherData {
-  dateTime: number;
+  timezone?: string;
+  dateTime?: number;
+  zonedDate?: Date;
   feelsLike: number;
   temperature: number;
   uvIndex: number;

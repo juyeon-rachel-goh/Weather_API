@@ -23,6 +23,7 @@ import { GeocodeService } from '../../services/geocode/geocode.service';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { WeatherStateService } from '../../services/weather-state/weather-state.service';
 import { WeatherService } from '../../services/weather/weather.service';
+import { utcToZonedTime } from 'date-fns-tz';
 
 @Component({
   selector: 'app-side-bar',
@@ -32,7 +33,6 @@ import { WeatherService } from '../../services/weather/weather.service';
 export class SideBarComponent implements OnInit {
   public searchFormControl: FormControl = new FormControl('');
   public isCollapsed = true;
-  formatter = (result: string) => result.toUpperCase();
 
   constructor(
     private geocodeService: GeocodeService,
@@ -47,32 +47,39 @@ export class SideBarComponent implements OnInit {
 
   public model: any;
 
-  autoComplete: OperatorFunction<string, readonly string[]> = (
+  autoComplete: OperatorFunction<string, Location[]> = (
     text$: Observable<string>
   ) => {
     return text$.pipe(
       debounceTime(100),
       distinctUntilChanged(),
-      switchMap((search) =>
-        this.geocodeService.getLatLong(search).pipe(
-          map((response) => {
-            const features = response.features as any[];
-            return features.map((feature) => {
-              const properties = feature.properties;
-              const location: Location = {
-                lat: properties.lat,
-                lon: properties.lon,
-                city: properties.city,
-                formatted: properties.formatted,
-              };
-              return location;
-            });
-          })
-        )
-      )
+      switchMap((search) => {
+        return iif(
+          () => !search.trim(),
+          of([]),
+          this.geocodeService.getLatLong(search).pipe(
+            map((response) => {
+              const features = response.features as any[];
+              return features.map((feature) => {
+                const properties = feature.properties;
+                const location: Location = {
+                  lat: properties.lat,
+                  lon: properties.lon,
+                  city: properties.city,
+                  formatted: properties.formatted,
+                };
+                return location;
+              });
+            })
+          )
+        );
+      })
     );
   };
-
+  public onSelect(event: NgbTypeaheadSelectItemEvent<Location>): void {
+    this.searchFormControl.setValue(event.item);
+    this.search();
+  }
   public formatter = (location: Location) => {
     const formatted = location.formatted;
     if (formatted) {
@@ -93,9 +100,9 @@ export class SideBarComponent implements OnInit {
       .pipe(take(1))
       .subscribe((response) => {
         const weather: Weather = {
-          current: this.weatherStateService.format(response.current),
+          current: this.weatherStateService.formatCurrent(response),
           daily: (response.daily as any[]).map((data) =>
-            this.weatherStateService.format(data)
+            this.weatherStateService.formatDaily(data)
           ),
         };
         this.weatherStateService.next(weather);
