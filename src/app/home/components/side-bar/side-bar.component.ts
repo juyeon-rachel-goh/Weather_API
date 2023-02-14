@@ -92,6 +92,7 @@ const states = [
 export class SideBarComponent implements OnInit {
   public searchFormControl: FormControl = new FormControl('');
   public isCollapsed = true;
+  formatter = (result: string) => result.toUpperCase();
 
   constructor(
     private geocodeService: GeocodeService,
@@ -106,39 +107,18 @@ export class SideBarComponent implements OnInit {
 
   public model: any;
 
-  autoComplete: OperatorFunction<string, Location[]> = (
+  autoComplete: OperatorFunction<string, readonly string[]> = (
     text$: Observable<string>
   ) =>
     text$.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-      switchMap((search) =>
-        this.geocodeService.getLatLong(search).pipe(
-          map((response) => {
-            const features = response.features as any[];
-            return features.map((feature) => {
-              const properties = feature.properties;
-              const location: Location = {
-                lat: properties.lat,
-                lon: properties.lon,
-                city: properties.city,
-                formatted: properties.formatted,
-              };
-              return location;
-            });
-          })
-        )
+      map((city) =>
+        states
+          .filter((v) => v.toLowerCase().indexOf(city.toLowerCase()) > -1)
+          .slice(0, 10)
       )
     );
-
-  public formatter = (location: Location) => {
-    const formatted = location.formatted;
-    if (formatted) {
-      return formatted;
-    } else {
-      return '';
-    }
-  };
 
   public search(isResearch: boolean = false): void {
     if (!isResearch) {
