@@ -23,6 +23,7 @@ import { GeocodeService } from '../../services/geocode/geocode.service';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { WeatherStateService } from '../../services/weather-state/weather-state.service';
 import { WeatherService } from '../../services/weather/weather.service';
+import { utcToZonedTime } from 'date-fns-tz';
 
 @Component({
   selector: 'app-side-bar',
@@ -75,7 +76,10 @@ export class SideBarComponent implements OnInit {
       })
     );
   };
-
+  public onSelect(event: NgbTypeaheadSelectItemEvent<Location>): void {
+    this.searchFormControl.setValue(event.item);
+    this.search();
+  }
   public formatter = (location: Location) => {
     const formatted = location.formatted;
     if (formatted) {
@@ -84,11 +88,6 @@ export class SideBarComponent implements OnInit {
       return '';
     }
   };
-
-  public onSelect(event: NgbTypeaheadSelectItemEvent<Location>): void {
-    this.searchFormControl.setValue(event.item);
-    this.search();
-  }
 
   public search(isResearch: boolean = false): void {
     if (!isResearch) {
@@ -101,9 +100,9 @@ export class SideBarComponent implements OnInit {
       .pipe(take(1))
       .subscribe((response) => {
         const weather: Weather = {
-          current: this.weatherStateService.format(response.current),
+          current: this.weatherStateService.formatCurrent(response),
           daily: (response.daily as any[]).map((data) =>
-            this.weatherStateService.format(data)
+            this.weatherStateService.formatDaily(data)
           ),
         };
         this.weatherStateService.next(weather);

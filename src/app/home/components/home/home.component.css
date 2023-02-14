@@ -1,4 +1,16 @@
+* {
+  color: rgba(255, 255, 255);
+}
 .padding {
-  padding-top: 100px;
+  padding-top: 80px;
   padding-left: 75px;
+  padding-bottom: 45px;
+}
+
+.box {
+  justify-content: space-between;
+}
+
+img {
+  height: 100%;
 }
