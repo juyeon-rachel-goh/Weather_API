@@ -5,11 +5,8 @@ import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import {
   map,
   switchMap,
-  tap,
   take,
-  catchError,
   of,
-  throwError,
   OperatorFunction,
   Observable,
   debounceTime,
@@ -23,7 +20,6 @@ import { GeocodeService } from '../../services/geocode/geocode.service';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { WeatherStateService } from '../../services/weather-state/weather-state.service';
 import { WeatherService } from '../../services/weather/weather.service';
-import { utcToZonedTime } from 'date-fns-tz';
 
 @Component({
   selector: 'app-side-bar',
@@ -45,9 +41,7 @@ export class SideBarComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public model: any;
-
-  autoComplete: OperatorFunction<string, Location[]> = (
+  public autoComplete: OperatorFunction<string, Location[]> = (
     text$: Observable<string>
   ) => {
     return text$.pipe(
@@ -99,11 +93,12 @@ export class SideBarComponent implements OnInit {
       .getWeatherData(this.searchFormControl.value)
       .pipe(take(1))
       .subscribe((response) => {
+        console.log(response);
         const weather: Weather = {
           current: this.weatherStateService.formatCurrent(response),
-          daily: (response.daily as any[]).map((data) =>
-            this.weatherStateService.formatDaily(data)
-          ),
+          daily: (response.daily as any[])
+            .map((data) => this.weatherStateService.formatDaily(data))
+            .slice(1, 6),
         };
         this.weatherStateService.next(weather);
         console.log(weather);

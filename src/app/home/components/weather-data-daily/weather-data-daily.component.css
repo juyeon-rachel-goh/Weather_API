@@ -1,0 +1,35 @@
+.row {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.box {
+  width: 18%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.icon {
+  width: 60%;
+}
+
+p {
+  margin: 0;
+}
+
+.upper-text {
+  height: 100%;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.lower-text {
+  font-size: 1rem;
+  font-weight: 200;
+}
