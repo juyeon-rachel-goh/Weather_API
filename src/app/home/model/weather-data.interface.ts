@@ -1,10 +1,11 @@
 export interface WeatherData {
-  timezone?: string;
-  dateTime?: number;
   zonedDate?: Date;
   feelsLike: number;
   temperature: number;
-  uvIndex: number;
+  sunrise: Date;
+  sunset: Date;
+  humidity: number;
+  windSpeed: number;
   description: string;
   mainDescription: string;
   iconUrl: string;

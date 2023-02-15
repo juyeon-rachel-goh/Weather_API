@@ -9,10 +9,10 @@ import {
   NgbTooltipModule,
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { WeatherDataRowComponent } from './components/weather-data-row/weather-data-row.component';
+import { WeatherDataDailyComponent } from './components/weather-data-daily/weather-data-daily.component';
 
 @NgModule({
-  declarations: [HomeComponent, SideBarComponent, WeatherDataRowComponent],
+  declarations: [HomeComponent, SideBarComponent, WeatherDataDailyComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,

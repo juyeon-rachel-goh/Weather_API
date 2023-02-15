@@ -1,6 +1,11 @@
 * {
   color: rgba(255, 255, 255, 0.9);
 }
+.heading {
+  font-size: 2rem;
+  font-weight: 400;
+  text-shadow: 2px 2px 4px #4e4e4e;
+}
 
 input[type="text"] {
   color: rgba(255, 255, 255, 0.9);
@@ -30,4 +35,38 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 12.75px;
+}
+
+.box {
+  width: 18%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.upper-text {
+  height: 100%;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.lower-text {
+  font-size: 1rem;
+  font-weight: 200;
 }

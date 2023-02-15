@@ -1,6 +1,26 @@
-<div class="h-100 w-100">
-  <div class="d-flex flex-row justify-content-between">
-    <div class="w-50">{{ weather.dateTime | date: "EEEE d" }}</div>
+<div class="row">
+  <div class="box">
+    <p class="upper-text">{{ weather.zonedDate | date : "M/d" }}</p>
+    <p class="lower-text">{{ weather.zonedDate | date : "EEEEEE" }}</p>
+  </div>
+  <div class="box">
+    <img [src]="weather.iconUrl" class="icon" />
+    <p class="lower-text">{{ weather.mainDescription }}</p>
+  </div>
+  <div class="box">
+    <p class="upper-text">{{ weather.tempHigh | number : "1.0-0" }}</p>
+    <p class="lower-text">HIGH</p>
+  </div>
+  <div class="box">
+    <p class="upper-text">{{ weather.tempLow | number : "1.0-0" }}</p>
+    <p class="lower-text">LOW</p>
+  </div>
+  <div class="box">
+    <p class="upper-text">{{ weather.humidity }}</p>
+    <p class="lower-text">HUMIDITY</p>
+  </div>
+
+  <!-- 
     <div class="w-50">{{ weather.temperature | number: "1.0-0" }}°</div>
     <button
       type="button"
@@ -33,6 +53,5 @@
         <div style="width: 42px; height: 38px"></div>
       </div>
     </div>
-    <hr />
-  </div>
+    <hr /> -->
 </div>
