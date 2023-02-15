@@ -31,11 +31,23 @@
   text-shadow: 2px 2px 4px #4e4e4e;
   padding-top: 1rem;
 }
-
+.fixed-width {
+  min-width: 23%;
+  width: 23%;
+}
 button {
   border: none;
   padding: 0;
   background: none;
+  text-shadow: 2px 2px 4px #4e4e4e;
+  font-size: 2.5rem;
+}
+
+.disabledButton {
+  border: none;
+  padding: 0;
+  background: none;
+  color: #949494;
   text-shadow: 2px 2px 4px #4e4e4e;
   font-size: 2rem;
 }

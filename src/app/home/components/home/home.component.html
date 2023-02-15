@@ -23,7 +23,7 @@
       </div>
     </div>
     <!-- Weather Icon and Description -->
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-row flex-wrap">
       <div class="box icon-padding">
         <div
           *ngIf="
@@ -46,24 +46,33 @@
       </div>
       <!-- Temperature -->
       <div
-        class="box"
+        class="box temp fixed-width"
         *ngIf="
           (weatherStateService.mostRecentWeather | async)?.current?.temperature
         "
       >
-        <div class="temp">
-          {{
-            (weatherStateService.mostRecentWeather | async)?.current
-              ?.temperature | number : "1.0-0"
-          }}°
-        </div>
+        {{
+          tempUnit === "f"
+            ? ((weatherStateService.mostRecentWeather | async)?.current
+                ?.temperature | number : "1.0-0")
+            : (((weatherStateService.mostRecentWeather | async)?.current
+                ?.temperature! -
+                32) *
+                (5 / 9) | number : "1.0-0")
+        }}°
       </div>
       <!-- F/C Button -->
-      <div class="temp-unit-box">
+      <div
+        *ngIf="
+          (weatherStateService.mostRecentWeather | async)?.current?.temperature
+        "
+        class="temp-unit-box"
+      >
         <button
           type="button"
           (click)="toggleUnit('f')"
           [disabled]="tempUnit === 'f'"
+          [ngClass]="tempUnit === 'c' ? 'disabledButton' : ''"
         >
           F
         </button>
@@ -71,11 +80,14 @@
           type="button"
           (click)="toggleUnit('c')"
           [disabled]="tempUnit === 'c'"
+          [ngClass]="tempUnit === 'f' ? 'disabledButton' : ''"
         >
           C
         </button>
       </div>
     </div>
   </div>
-  <app-side-bar></app-side-bar>
+  <app-side-bar
+    [tempUnit]="tempUnit === 'f' ? 'f' : tempUnit === 'c' ? 'c' : ''"
+  ></app-side-bar>
 </div>
