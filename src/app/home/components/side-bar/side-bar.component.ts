@@ -1,5 +1,11 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -26,9 +32,11 @@ import { WeatherService } from '../../services/weather/weather.service';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.css'],
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent implements OnInit, OnChanges {
+  @Input() tempUnit: string = '';
   public searchFormControl: FormControl = new FormControl('');
   public isCollapsed = true;
+  private count = 0;
 
   constructor(
     private geocodeService: GeocodeService,
@@ -40,6 +48,30 @@ export class SideBarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.count += 1;
+    let unit = changes['tempUnit'].currentValue;
+    this.weatherStateService.mostRecentWeather.subscribe((data) => {
+      let weather: Weather = data;
+      if (weather.current && this.count >= 2) {
+        if (unit === 'c') {
+          weather.current.feelsLike =
+            (weather.current.feelsLike - 32) * (5 / 9);
+          weather.daily?.forEach((data) => {
+            data.tempHigh = (data.tempHigh - 32) * (5 / 9);
+            data.tempLow = (data.tempLow - 32) * (5 / 9);
+          });
+        } else if (unit === 'f') {
+          weather.current.feelsLike = (weather.current.feelsLike * 9) / 5 + 32;
+          data.daily?.forEach((data) => {
+            data.tempHigh = (data.tempHigh * 9) / 5 + 32;
+            data.tempLow = (data.tempLow * 9) / 5 + 32;
+          });
+        }
+      }
+    });
+  }
 
   public autoComplete: OperatorFunction<string, Location[]> = (
     text$: Observable<string>
@@ -93,7 +125,6 @@ export class SideBarComponent implements OnInit {
       .getWeatherData(this.searchFormControl.value)
       .pipe(take(1))
       .subscribe((response) => {
-        console.log(response);
         const weather: Weather = {
           current: this.weatherStateService.formatCurrent(response),
           daily: (response.daily as any[])
@@ -101,7 +132,6 @@ export class SideBarComponent implements OnInit {
             .slice(1, 6),
         };
         this.weatherStateService.next(weather);
-        console.log(weather);
       });
   }
 
