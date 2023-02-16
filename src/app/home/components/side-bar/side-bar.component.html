@@ -34,7 +34,7 @@
         class="pill-button"
         (click)="researchLocation(previousLocation)"
       >
-        {{ previousLocation.city | titlecase }}
+        {{ previousLocation ? (previousLocation.city | titlecase) : "" }}
       </button>
     </ng-container>
   </div>

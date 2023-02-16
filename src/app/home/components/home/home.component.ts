@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { GeocodeStateService } from '../../services/geocode-state/geocode-state.service';
 import { WeatherStateService } from '../../services/weather-state/weather-state.service';
