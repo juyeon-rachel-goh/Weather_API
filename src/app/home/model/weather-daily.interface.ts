@@ -1,7 +1,9 @@
 export interface WeatherDaily {
   zonedDate: Date;
-  tempHigh: number;
-  tempLow: number;
+  tempHighF: number;
+  tempLowF: number;
+  tempHighC: number;
+  tempLowC: number;
   humidity: number;
   description: string;
   mainDescription: string;

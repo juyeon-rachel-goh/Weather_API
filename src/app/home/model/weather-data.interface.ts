@@ -1,7 +1,8 @@
 export interface WeatherData {
   zonedDate?: Date;
   feelsLike: number;
-  temperature: number;
+  tempF: number;
+  tempC: number;
   sunrise: Date;
   sunset: Date;
   humidity: number;

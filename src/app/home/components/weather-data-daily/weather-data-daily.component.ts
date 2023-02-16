@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { WeatherDaily } from '../../model/weather-daily.interface';
 
 @Component({
@@ -7,8 +13,8 @@ import { WeatherDaily } from '../../model/weather-daily.interface';
   styleUrls: ['./weather-data-daily.component.css'],
 })
 export class WeatherDataDailyComponent implements OnInit {
-  @Input()
-  public weather!: WeatherDaily;
+  @Input() public weather!: WeatherDaily;
+  @Input() tempUnit: string = '';
   public isCollapsed = true;
 
   constructor() {}
