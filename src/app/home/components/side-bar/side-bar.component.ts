@@ -32,11 +32,10 @@ import { WeatherService } from '../../services/weather/weather.service';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.css'],
 })
-export class SideBarComponent implements OnInit, OnChanges {
+export class SideBarComponent implements OnInit {
   @Input() tempUnit: string = '';
   public searchFormControl: FormControl = new FormControl('');
   public isCollapsed = true;
-  private count = 0;
 
   constructor(
     private geocodeService: GeocodeService,
@@ -48,30 +47,6 @@ export class SideBarComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.count += 1;
-    let unit = changes['tempUnit'].currentValue;
-    this.weatherStateService.mostRecentWeather.subscribe((data) => {
-      let weather: Weather = data;
-      if (weather.current && this.count >= 2) {
-        if (unit === 'c') {
-          weather.current.feelsLike =
-            (weather.current.feelsLike - 32) * (5 / 9);
-          weather.daily?.forEach((data) => {
-            data.tempHigh = (data.tempHigh - 32) * (5 / 9);
-            data.tempLow = (data.tempLow - 32) * (5 / 9);
-          });
-        } else if (unit === 'f') {
-          weather.current.feelsLike = (weather.current.feelsLike * 9) / 5 + 32;
-          data.daily?.forEach((data) => {
-            data.tempHigh = (data.tempHigh * 9) / 5 + 32;
-            data.tempLow = (data.tempLow * 9) / 5 + 32;
-          });
-        }
-      }
-    });
-  }
 
   public autoComplete: OperatorFunction<string, Location[]> = (
     text$: Observable<string>

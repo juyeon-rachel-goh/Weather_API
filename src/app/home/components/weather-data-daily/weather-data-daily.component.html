@@ -8,11 +8,23 @@
     <p class="lower-text">{{ weather.mainDescription }}</p>
   </div>
   <div class="box">
-    <p class="upper-text">{{ weather.tempHigh | number : "1.0-0" }}</p>
+    <p class="upper-text">
+      {{
+        tempUnit === "f"
+          ? (weather.tempHighF | number : "1.0-0")
+          : (weather.tempHighC | number : "1.0-0")
+      }}
+    </p>
     <p class="lower-text">HIGH</p>
   </div>
   <div class="box">
-    <p class="upper-text">{{ weather.tempLow | number : "1.0-0" }}</p>
+    <p class="upper-text">
+      {{
+        tempUnit === "f"
+          ? (weather.tempLowF | number : "1.0-0")
+          : (weather.tempLowC | number : "1.0-0")
+      }}
+    </p>
     <p class="lower-text">LOW</p>
   </div>
   <div class="box">
@@ -55,3 +67,4 @@
     </div>
     <hr /> -->
 </div>
+<hr style="margin: 1px" />

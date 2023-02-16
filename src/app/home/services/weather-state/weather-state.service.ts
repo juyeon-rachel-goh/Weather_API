@@ -20,7 +20,8 @@ export class WeatherStateService {
     return {
       zonedDate: zonedDate,
       feelsLike: response.current.feels_like,
-      temperature: response.current.temp,
+      tempF: response.current.temp,
+      tempC: (response.current.temp - 32) * (5 / 9),
       sunrise: utcToZonedTime(
         new Date(response.current.sunrise * 1000),
         timeZone
@@ -45,8 +46,11 @@ export class WeatherStateService {
 
     return {
       zonedDate: zonedDate,
-      tempHigh: Math.max(...tempArr),
-      tempLow: Math.min(...tempArr),
+      tempHighF: Math.max(...tempArr),
+      tempLowF: Math.min(...tempArr),
+      tempHighC: (Math.max(...tempArr) - 32) * (5 / 9),
+      tempLowC: (Math.min(...tempArr) - 32) * (5 / 9),
+
       humidity: response.humidity,
       description: response.weather[0].description,
       mainDescription: response.weather[0].main,

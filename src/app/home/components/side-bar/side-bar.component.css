@@ -70,3 +70,16 @@ p {
   font-size: 1rem;
   font-weight: 200;
 }
+
+.pill-button {
+  background-color: #ddd;
+  box-shadow: 2px 2px 4px #4e4e4e;
+  border: none;
+  color: black;
+  padding: 3px 20px;
+  text-align: center;
+  text-decoration: none;
+  margin: 6px 3px;
+  cursor: pointer;
+  border-radius: 2rem;
+}

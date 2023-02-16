@@ -1,6 +1,6 @@
 <div class="blur padding">
   <form (ngSubmit)="search()">
-    <div class="form-group pt-3">
+    <div class="form-group">
       <div class="d-flex">
         <input
           class="textbar display-6"
@@ -21,23 +21,23 @@
   </form>
   <hr />
   <div class="heading">Past Locations</div>
-  <ng-container
-    *ngFor="
-      let previousLocation of localStorageService.mostRecentLocalStorage
-        | async;
-      index as i
-    "
-  >
-    <div class="heading">
-      <!-- <button
+  <div class="d-flex flex-row">
+    <ng-container
+      *ngFor="
+        let previousLocation of localStorageService.mostRecentLocalStorage
+          | async;
+        index as i
+      "
+    >
+      <button
         type="button"
-        class="btn btn btn-secondary btn-md p-2"
+        class="pill-button"
         (click)="researchLocation(previousLocation)"
       >
-        {{ previousLocation | titlecase }}
-      </button> -->
-    </div>
-  </ng-container>
+        {{ previousLocation.city | titlecase }}
+      </button>
+    </ng-container>
+  </div>
   <hr />
   <div class="heading">Weather Details</div>
   <div class="row">
@@ -62,16 +62,29 @@
     <div class="box">
       <p class="upper-text">
         {{
-          (weatherStateService.mostRecentWeather | async)?.current?.feelsLike
-            | number : "1.0-0"
+          tempUnit === "f"
+            ? ((weatherStateService.mostRecentWeather | async)?.current
+                ?.feelsLike | number : "1.0-0")
+            : (((weatherStateService.mostRecentWeather | async)?.current
+                ?.feelsLike! -
+                32) *
+                (5 / 9) | number : "1.0-0")
         }}
+        <span *ngIf="(weatherStateService.mostRecentWeather | async)?.current">
+          °</span
+        >
       </p>
+
       <p class="lower-text">Feels Like</p>
     </div>
     <div class="box">
       <p class="upper-text">
         {{ (weatherStateService.mostRecentWeather | async)?.current?.humidity
-        }}<span> %</span>
+        }}<span
+          *ngIf="(weatherStateService.mostRecentWeather | async)?.current"
+        >
+          %</span
+        >
       </p>
       <p class="lower-text">Humidity</p>
     </div>
@@ -80,7 +93,11 @@
         {{
           (weatherStateService.mostRecentWeather | async)?.current?.windSpeed
             | number : "1.0-0"
-        }}<span> mph</span>
+        }}<span
+          *ngIf="(weatherStateService.mostRecentWeather | async)?.current"
+        >
+          mph</span
+        >
       </p>
       <p class="lower-text">Wind</p>
     </div>
@@ -94,7 +111,10 @@
         index as i
       "
     >
-      <app-weather-data-daily [weather]="weather"></app-weather-data-daily>
+      <app-weather-data-daily
+        [weather]="weather"
+        [tempUnit]="tempUnit"
+      ></app-weather-data-daily>
     </ng-container>
   </div>
 </div>

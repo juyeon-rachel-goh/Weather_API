@@ -47,25 +47,19 @@
       <!-- Temperature -->
       <div
         class="box temp fixed-width"
-        *ngIf="
-          (weatherStateService.mostRecentWeather | async)?.current?.temperature
-        "
+        *ngIf="(weatherStateService.mostRecentWeather | async)?.current?.tempF"
       >
         {{
           tempUnit === "f"
-            ? ((weatherStateService.mostRecentWeather | async)?.current
-                ?.temperature | number : "1.0-0")
-            : (((weatherStateService.mostRecentWeather | async)?.current
-                ?.temperature! -
-                32) *
-                (5 / 9) | number : "1.0-0")
+            ? ((weatherStateService.mostRecentWeather | async)?.current?.tempF
+              | number : "1.0-0")
+            : ((weatherStateService.mostRecentWeather | async)?.current?.tempC
+              | number : "1.0-0")
         }}°
       </div>
       <!-- F/C Button -->
       <div
-        *ngIf="
-          (weatherStateService.mostRecentWeather | async)?.current?.temperature
-        "
+        *ngIf="(weatherStateService.mostRecentWeather | async)?.current?.tempF"
         class="temp-unit-box"
       >
         <button
