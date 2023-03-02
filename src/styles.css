@@ -2,11 +2,43 @@
 @import "../node_modules/bootstrap/dist/css/bootstrap.css";
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 
-body {
-  background-image: url("./image/day.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
-  margin: 0;
-  height: 100vh;
+.text-shadow {
+  text-shadow: 2px 2px 3px #545454;
+}
+/* Custom Class */
+.w-20 {
+  width: 20% !important;
+}
+.min-vh-10 {
+  min-height: 10vh !important;
+}
+.min-vh-15 {
+  min-height: 15vh !important;
+}
+.min-vh-25 {
+  min-height: 25vh !important;
+}
+.min-vh-45 {
+  min-height: 45vh !important;
+}
+
+.min-vh-65 {
+  min-height: 65vh !important;
+}
+/* LG breakpoint */
+@media (min-width: 992px) {
+  /* CUSTOM VH */
+  .min-vh-lg-15 {
+    min-height: 15vh !important;
+  }
+  .min-vh-lg-25 {
+    min-height: 25vh !important;
+  }
+  .min-vh-lg-45 {
+    min-height: 45vh !important;
+  }
+  /* CUSTOM WIDTHS */
+  .w-lg-50 {
+    width: 50% !important;
+  }
 }

@@ -1,70 +1,36 @@
-<div class="row">
-  <div class="box">
-    <p class="upper-text">{{ weather.zonedDate | date : "M/d" }}</p>
-    <p class="lower-text">{{ weather.zonedDate | date : "EEEEEE" }}</p>
-  </div>
-  <div class="box">
-    <img [src]="weather.iconUrl" class="icon" />
-    <p class="lower-text">{{ weather.mainDescription }}</p>
-  </div>
-  <div class="box">
-    <p class="upper-text">
+<section
+  class="d-flex flex-row justify-content-around align-items-center border-bottom text-shadow text-center"
+>
+  <article class="d-flex flex-column px-2">
+    <p>{{ weather.zonedDate | date : "M/d" }}</p>
+    <small>{{ weather.zonedDate | date : "EEEEEE" }}</small>
+  </article>
+
+  <img [src]="weather.iconUrl" style="max-width: 50px" />
+  <!-- <small>{{ weather.mainDescription }}</small> -->
+
+  <article class="d-flex flex-column px-2">
+    <p>
       {{
         tempUnit === "f"
           ? (weather.tempHighF | number : "1.0-0")
           : (weather.tempHighC | number : "1.0-0")
       }}
     </p>
-    <p class="lower-text">HIGH</p>
-  </div>
-  <div class="box">
-    <p class="upper-text">
+    <small>High</small>
+  </article>
+  <article class="d-flex flex-column px-2">
+    <p>
       {{
         tempUnit === "f"
           ? (weather.tempLowF | number : "1.0-0")
           : (weather.tempLowC | number : "1.0-0")
       }}
     </p>
-    <p class="lower-text">LOW</p>
-  </div>
-  <div class="box">
-    <p class="upper-text">{{ weather.humidity }} %</p>
-    <p class="lower-text">HUMIDITY</p>
-  </div>
-
-  <!-- 
-    <div class="w-50">{{ weather.temperature | number: "1.0-0" }}°</div>
-    <button
-      type="button"
-      class="btn"
-      (click)="collapse.toggle()"
-      [attr.aria-expanded]="!isCollapsed"
-      aria-controls="collapseExample"
-    >
-      <i
-        [ngClass]="{
-          'bi-arrow-up': !isCollapsed,
-          'bi-arrow-down ': isCollapsed,
-          bi: true
-        }"
-        placement="top"
-        [ngbTooltip]="isCollapsed ? 'Expand' : 'Collapse'"
-      ></i>
-    </button>
-  </div>
-  <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
-    <div class="d-flex flex-column justify-content-between">
-      <div class="d-flex flex-row justify-content-between">
-        <div class="w-50">Feels like</div>
-        <div class="w-50">{{ weather.feelsLike | number: "1.0-0" }}</div>
-        <div style="width: 44px; height: 38px"></div>
-      </div>
-      <div class="d-flex flex-row justify-content-between">
-        <div class="w-50">UV index</div>
-        <div class="w-50">{{ weather.uvIndex }}</div>
-        <div style="width: 42px; height: 38px"></div>
-      </div>
-    </div>
-    <hr /> -->
-</div>
-<hr style="margin: 1px" />
+    <small>Low</small>
+  </article>
+  <article class="d-flex flex-column px-2">
+    <p>{{ weather.humidity }} %</p>
+    <small>Humidity</small>
+  </article>
+</section>

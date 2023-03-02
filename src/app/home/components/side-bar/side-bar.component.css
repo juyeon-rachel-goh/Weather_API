@@ -1,6 +1,7 @@
 * {
   color: rgba(255, 255, 255, 0.9);
 }
+
 .heading {
   font-size: 2rem;
   font-weight: 400;
@@ -19,11 +20,6 @@ input[type="text"] {
 .blur {
   background-color: rgba(3, 30, 73, 0.25);
   backdrop-filter: blur(10px);
-  height: 100%;
-}
-
-.padding {
-  padding: 24px;
 }
 
 input,
