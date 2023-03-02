@@ -14,12 +14,13 @@
               | date : "fullDate"
           }}
         </h4>
-        <h6>
-          {{
+        <h5>
+          {{ clock | date : "mediumTime" }}
+          <!-- {{
             (weatherStateService.mostRecentWeather | async)?.current?.zonedDate
               | date : "mediumTime"
-          }}
-        </h6>
+          }} -->
+        </h5>
       </section>
       <section
         class="d-flex flex-row align-items-center w-100 justify-content-between"
