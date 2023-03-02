@@ -5,6 +5,7 @@
 .text-shadow {
   text-shadow: 2px 2px 3px #545454;
 }
+
 /* Custom Class */
 .w-20 {
   width: 20% !important;
@@ -40,5 +41,10 @@
   /* CUSTOM WIDTHS */
   .w-lg-50 {
     width: 50% !important;
+  }
+
+  .display-lg-7 {
+    font-size: calc(1.375rem + 0.4vw);
+    line-height: 1.2;
   }
 }

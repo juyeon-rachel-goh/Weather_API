@@ -1,4 +1,4 @@
-<div class="min-vh-100 background-day">
+<div [ngClass]="getBgImage()" class="min-vh-100 background-img">
   <main class="d-flex flex-column flex-lg-row justify-content-between">
     <div
       class="d-flex flex-column justify-content-start justify-content-lg-end align-items-center align-items-lg-start px-5 py-3"
@@ -16,10 +16,6 @@
         </h4>
         <h5>
           {{ clock | date : "mediumTime" }}
-          <!-- {{
-            (weatherStateService.mostRecentWeather | async)?.current?.zonedDate
-              | date : "mediumTime"
-          }} -->
         </h5>
       </section>
       <section
