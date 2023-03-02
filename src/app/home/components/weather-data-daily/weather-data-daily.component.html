@@ -1,8 +1,8 @@
 <section
-  class="d-flex flex-row justify-content-around align-items-center border-bottom text-shadow text-center"
+  class="d-flex flex-row justify-content-around align-items-center border-bottom text-shadow text-center min-vh-10"
 >
   <article class="d-flex flex-column px-2">
-    <p>{{ weather.zonedDate | date : "M/d" }}</p>
+    <p class="display-lg-7">{{ weather.zonedDate | date : "M/d" }}</p>
     <small>{{ weather.zonedDate | date : "EEEEEE" }}</small>
   </article>
 
@@ -10,7 +10,7 @@
   <!-- <small>{{ weather.mainDescription }}</small> -->
 
   <article class="d-flex flex-column px-2">
-    <p>
+    <p class="display-lg-7">
       {{
         tempUnit === "f"
           ? (weather.tempHighF | number : "1.0-0")
@@ -20,7 +20,7 @@
     <small>High</small>
   </article>
   <article class="d-flex flex-column px-2">
-    <p>
+    <p class="display-lg-7">
       {{
         tempUnit === "f"
           ? (weather.tempLowF | number : "1.0-0")
@@ -30,7 +30,7 @@
     <small>Low</small>
   </article>
   <article class="d-flex flex-column px-2">
-    <p>{{ weather.humidity }} %</p>
+    <p class="display-lg-7">{{ weather.humidity }} %</p>
     <small>Humidity</small>
   </article>
 </section>

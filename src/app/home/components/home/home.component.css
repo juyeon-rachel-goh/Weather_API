@@ -2,13 +2,13 @@
   color: rgba(255, 255, 255);
 }
 
-.background-day {
-  background-image: url("./image/day.jpg");
+.background-img {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;
   margin: 0;
 }
+
 .temp-font-size {
   text-align: center;
   font-size: 10vw;
@@ -16,4 +16,13 @@
 
 .disabledButton {
   color: #949494;
+}
+
+/* Background Image */
+.day {
+  background-image: url("./image/day.jpg");
+}
+
+.night {
+  background-image: url("./image/night.jpg");
 }
