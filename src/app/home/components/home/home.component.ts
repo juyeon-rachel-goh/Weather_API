@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { GeocodeStateService } from '../../services/geocode-state/geocode-state.service';
 import { WeatherStateService } from '../../services/weather-state/weather-state.service';
+import { Subscription, map, share, timer } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ export class HomeComponent implements OnInit {
     public geocodeStateService: GeocodeStateService
   ) {}
 
-  public ngOnInit(): void {}
+  public ngOnInit() {}
 
   public toggleUnit(unit: string) {
     this.tempUnit = unit;

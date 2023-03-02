@@ -1,86 +1,89 @@
-<div class="d-flex flex-row justify-content-between h-100 w-100">
-  <div class="padding d-flex flex-column w-75">
-    <h6 class="h-50">my_weather_forecast</h6>
-    <div class="d-flex flex-column">
-      <!-- City -->
-      <div class="heading">
-        {{ (geocodeStateService.mostRecentSearch | async)?.city }}
-      </div>
-      <!-- Date -->
-      <div class="h-50 sub-heading">
-        {{
-          (weatherStateService.mostRecentWeather | async)?.current?.zonedDate
-            | date : "fullDate"
-        }}
-      </div>
-      <!-- TIME  -->
-      <div class="h-50 sub-heading">
-        {{
-          (weatherStateService.mostRecentWeather | async)?.current?.zonedDate
-            | date : "mediumTime"
-        }}
-      </div>
-    </div>
-    <!-- Weather Icon and Description -->
-    <div class="d-flex flex-row flex-wrap">
-      <div class="box icon-padding">
-        <div
-          *ngIf="
-            (weatherStateService.mostRecentWeather | async)?.current
-              ?.mainDescription
-          "
-        >
+<div class="min-vh-100 background-day">
+  <main class="d-flex flex-column flex-lg-row justify-content-between">
+    <div
+      class="d-flex flex-column justify-content-start justify-content-lg-end align-items-center align-items-lg-start px-5 py-3"
+    >
+      <section class="d-flex flex-column text-center text-lg-start text-shadow">
+        <!-- ROW 1: City, Date, Clock  -->
+        <h1>
+          {{ (geocodeStateService.mostRecentSearch | async)?.city }}
+        </h1>
+        <h4>
+          {{
+            (weatherStateService.mostRecentWeather | async)?.current?.zonedDate
+              | date : "fullDate"
+          }}
+        </h4>
+        <h6>
+          {{
+            (weatherStateService.mostRecentWeather | async)?.current?.zonedDate
+              | date : "mediumTime"
+          }}
+        </h6>
+      </section>
+      <section
+        class="d-flex flex-row align-items-center w-100 justify-content-between"
+      >
+        <!-- ROW 2: Weather Icon, Description, Temp, Unit Converter  -->
+        <article class="d-flex flex-column w-25">
+          <!-- Icon, Description -->
           <img
             [src]="
               (weatherStateService.mostRecentWeather | async)?.current?.iconUrl
             "
           />
-        </div>
-        <div class="content">
+          <p class="text-center text-shadow">
+            {{
+              (weatherStateService.mostRecentWeather | async)?.current
+                ?.mainDescription
+            }}
+          </p>
+        </article>
+        <!-- Temperature -->
+        <article
+          *ngIf="
+            (weatherStateService.mostRecentWeather | async)?.current?.tempF
+          "
+          class="text-shadow w-50 temp-font-size w-50"
+        >
           {{
-            (weatherStateService.mostRecentWeather | async)?.current
-              ?.mainDescription
-          }}
-        </div>
-      </div>
-      <!-- Temperature -->
-      <div
-        class="box temp fixed-width"
-        *ngIf="(weatherStateService.mostRecentWeather | async)?.current?.tempF"
-      >
-        {{
-          tempUnit === "f"
-            ? ((weatherStateService.mostRecentWeather | async)?.current?.tempF
-              | number : "1.0-0")
-            : ((weatherStateService.mostRecentWeather | async)?.current?.tempC
-              | number : "1.0-0")
-        }}°
-      </div>
-      <!-- F/C Button -->
-      <div
-        *ngIf="(weatherStateService.mostRecentWeather | async)?.current?.tempF"
-        class="temp-unit-box"
-      >
-        <button
-          type="button"
-          (click)="toggleUnit('f')"
-          [disabled]="tempUnit === 'f'"
-          [ngClass]="tempUnit === 'c' ? 'disabledButton' : ''"
+            tempUnit === "f"
+              ? ((weatherStateService.mostRecentWeather | async)?.current?.tempF
+                | number : "1.0-0")
+              : ((weatherStateService.mostRecentWeather | async)?.current?.tempC
+                | number : "1.0-0")
+          }}°
+        </article>
+        <!-- Unit Converter -->
+        <article
+          *ngIf="
+            (weatherStateService.mostRecentWeather | async)?.current?.tempF
+          "
+          class="d-flex flex-column w-25 ps-lg-5 fs-2"
         >
-          F
-        </button>
-        <button
-          type="button"
-          (click)="toggleUnit('c')"
-          [disabled]="tempUnit === 'c'"
-          [ngClass]="tempUnit === 'f' ? 'disabledButton' : ''"
-        >
-          C
-        </button>
-      </div>
+          <button
+            (click)="toggleUnit('f')"
+            [disabled]="tempUnit === 'f'"
+            [ngClass]="tempUnit === 'c' ? 'disabledButton' : ''"
+            class="border-0 bg-transparent text-shadow"
+          >
+            F
+          </button>
+          <button
+            (click)="toggleUnit('c')"
+            [disabled]="tempUnit === 'c'"
+            [ngClass]="tempUnit === 'f' ? 'disabledButton' : ''"
+            class="border-0 bg-transparent text-shadow"
+          >
+            C
+          </button>
+        </article>
+      </section>
     </div>
-  </div>
-  <app-side-bar
-    [tempUnit]="tempUnit === 'f' ? 'f' : tempUnit === 'c' ? 'c' : ''"
-  ></app-side-bar>
+    <aside class="w-100 w-lg-50">
+      <app-side-bar
+        [tempUnit]="tempUnit === 'f' ? 'f' : tempUnit === 'c' ? 'c' : ''"
+      ></app-side-bar>
+    </aside>
+  </main>
 </div>
